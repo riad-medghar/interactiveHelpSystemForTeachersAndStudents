@@ -1,0 +1,33 @@
+//still not applied.
+1.Use a database for user authentication: Currently, the code only checks
+  if the username and password match the predefined static variables.
+  In a real-world application, you would want to store user credentials
+  in a database and authenticate users against that database. You can
+  use JDBC (Java Database Connectivity) to connect your application
+  to a database like MySQL or PostgreSQL javaguides.net, javaguides.net.
+//still not applied.
+2.Implement a password hashing mechanism: Storing passwords as plain text
+  is a security risk. Instead, you should store a hashed version of the
+  password and compare the hashed version of the entered password with the
+  stored hash. You can use libraries like BCrypt or Argon2 to hash
+  passwords.
+//still not applied.
+3.Use a design pattern for the GUI: The current implementation of the GUI
+  is not scalable and can become difficult to manage as the application
+  grows. Consider using a design pattern like MVC (Model-View-Controller)
+  or MVVM (Model-View-ViewModel) to separate the concerns of your
+  application.
+//still not applied.
+4.Add validation to the input fields: Currently, the code does not validate
+  the input fields. You should add validation to check if the fields are
+  not empty and if they meet certain criteria (e.g., the email field should
+  contain a valid email address).
+//still not applied.
+5.Use a more flexible layout manager: The current code uses a null layout,
+  which is not recommended because it doesn't adjust well to different 
+  screen sizes and resolutions. Consider using a more flexible layout 
+  manager like BorderLayout, GridLayout, or GroupLayout.
+//still not applied.
+6.Handle exceptions properly: The code should handle exceptions properly. 
+  For instance, when writing to the file, it should handle the IOException 
+  that might be thrown.
