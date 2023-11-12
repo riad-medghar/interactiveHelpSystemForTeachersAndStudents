@@ -52,7 +52,8 @@ public class PlaceComponents extends login {
             public void actionPerformed(ActionEvent e) {
                USERNAME = userText.getText();
                PASSWORD = new String(passwordText.getPassword());
-            
+                //
+                DocumentExplorer explorer = new DocumentExplorer();
                 
                try {
                 // Connect to the database
@@ -65,10 +66,13 @@ public class PlaceComponents extends login {
     
                 // Check if the user exists in the database
                 if (rs.next()) {
-                    JOptionPane.showMessageDialog(null, "Authentication successful!");
+                   JOptionPane.showMessageDialog(null, "Authentication successful!");
                 
-                    registerFrame.setVisible(false);
-                    loginFrame.setVisible(true);
+                    //registerFrame.setVisible(false);
+                    
+                    explorer.show();
+                    frame.setVisible(false);
+
                 } else {
                     JOptionPane.showMessageDialog(null, "Authentication failed!");
                 }

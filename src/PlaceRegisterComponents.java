@@ -83,28 +83,40 @@ public class PlaceRegisterComponents extends login{
         String name = nameText.getText();
         String email = emailText.getText();
         String password = new String(passwordText.getPassword());
+        String rePassword = new String(rePasswordText.getPassword());
         String gender = male.isSelected() ? "M" : "F";
-
-        try {
-            // Assuming you're using a PostgreSQL database
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/interactivehelpsystem", "postgres", "riad18hamada");
-            System.out.println("Database connection successful");
-            java.sql.Statement stmt = conn.createStatement();
-            String sql = "INSERT INTO \"user\" (name, email, password, gender) VALUES ('" + name + "', '" + email + "', '" + password + "', '" + gender + "');";
-            System.out.println("SQL Statement: " + sql);
-
-            stmt.executeUpdate(sql);
-            JOptionPane.showMessageDialog(null, "Registration successful!");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Registration failed!");
+        
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty() || rePassword.isEmpty() || gender.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please fill all fields!");
+            return;
         }
+        else if (!password.equals(rePassword)) {
+            JOptionPane.showMessageDialog(null, "Passwords do not match!");
+            return;
+        }
+        else{
+                try {
+                    // Assuming you're using a PostgreSQL database
+                    Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/interactivehelpsystem", "postgres", "riad18hamada");
+                    System.out.println("Database connection successful");
+                    java.sql.Statement stmt = conn.createStatement();
+                    String sql = "INSERT INTO \"user\" (name, email, password, gender) VALUES ('" + name + "', '" + email + "', '" + password + "', '" + gender + "');";
+                    System.out.println("SQL Statement: " + sql);
 
-        registerFrame.setVisible(false);
-        loginFrame.setVisible(true);
-    }
-});
+                    stmt.executeUpdate(sql);
+                    JOptionPane.showMessageDialog(null, "Registration successful!");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Registration failed!");
+                }
 
+                registerFrame.setVisible(false);
+                loginFrame.setVisible(true);
+            }
+        }
+        });
+        
+     
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
