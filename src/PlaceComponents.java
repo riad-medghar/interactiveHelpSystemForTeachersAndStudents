@@ -1,7 +1,8 @@
 package src;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
@@ -53,23 +54,32 @@ public class PlaceComponents extends login {
                PASSWORD = new String(passwordText.getPassword());
             
                 
-                if (USERNAME.equals(userText.getText()) && PASSWORD.equals(new String(passwordText.getPassword()))) {
+               try {
+                // Connect to the database
+                Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/interactivehelpsystem", "postgres", "riad18hamada");
+    
+                // Create a statement
+                java.sql.Statement stmt = conn.createStatement();
+                // Execute a query to fetch the user data
+                ResultSet rs = stmt.executeQuery("SELECT * FROM \"user\" WHERE name = '" + USERNAME + "' AND password = '" + PASSWORD + "'");
+    
+                // Check if the user exists in the database
+                if (rs.next()) {
                     JOptionPane.showMessageDialog(null, "Authentication successful!");
+                
+                    registerFrame.setVisible(false);
+                    loginFrame.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "Authentication failed!");
                 }
-              
-            try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter("users.txt", true));
-                writer.write(USERNAME + "," + PASSWORD);
-                writer.newLine();
-                writer.close();
-            } catch (IOException ex) {
+    
+                // Close the resources
+                rs.close();
+                stmt.close();
+                conn.close();
+            } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-            JOptionPane.showMessageDialog(null, "Registration successful!");
-            registerFrame.setVisible(false);
-            loginFrame.setVisible(true);
         }
 
         });

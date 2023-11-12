@@ -9,6 +9,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class PlaceRegisterComponents extends login{
@@ -73,17 +76,34 @@ public class PlaceRegisterComponents extends login{
         panel.add(backButton);
 
         
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Add validation for the fields here
-                USERNAME = emailText.getText();
-                PASSWORD = new String(passwordText.getPassword());
-                JOptionPane.showMessageDialog(null, "Registration successful!");
-                registerFrame.setVisible(false);
-                loginFrame.setVisible(true);
-            }
-        });
+      registerButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Add validation for the fields here
+        String name = nameText.getText();
+        String email = emailText.getText();
+        String password = new String(passwordText.getPassword());
+        String gender = male.isSelected() ? "M" : "F";
+
+        try {
+            // Assuming you're using a PostgreSQL database
+            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/interactivehelpsystem", "postgres", "riad18hamada");
+            System.out.println("Database connection successful");
+            java.sql.Statement stmt = conn.createStatement();
+            String sql = "INSERT INTO \"user\" (name, email, password, gender) VALUES ('" + name + "', '" + email + "', '" + password + "', '" + gender + "');";
+            System.out.println("SQL Statement: " + sql);
+
+            stmt.executeUpdate(sql);
+            JOptionPane.showMessageDialog(null, "Registration successful!");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Registration failed!");
+        }
+
+        registerFrame.setVisible(false);
+        loginFrame.setVisible(true);
+    }
+});
 
         backButton.addActionListener(new ActionListener() {
             @Override
